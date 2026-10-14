@@ -19,7 +19,7 @@ latexmk -norc -pdf -no-shell-escape -interaction=nonstopmode \
   -halt-on-error -file-line-error Bao_cao_TTTN.tex
 ```
 
-Máy cá nhân cần TeX Live/MacTeX có các gói được mẫu sử dụng. Workflow cài các nhóm gói tương ứng trên Ubuntu 24.04. `References.bib` hiện chưa có trong repository, nên phần thư mục tài liệu tham khảo chỉ được gọi nếu file đó tồn tại. Nếu sau này bổ sung file `.bib`, cần cập nhật danh sách đóng gói để ZIP vẫn biên dịch được độc lập.
+Máy cá nhân cần TeX Live/MikTeX có các gói được mẫu sử dụng. Workflow cài các nhóm gói tương ứng trên Ubuntu 24.04. `References.bib` hiện chưa có trong repository, nên phần thư mục tài liệu tham khảo chỉ được gọi nếu file đó tồn tại. Nếu sau này bổ sung file `.bib`, cần cập nhật danh sách đóng gói để ZIP vẫn biên dịch được độc lập.
 
 ## Kiểm tra mà không phát hành
 
