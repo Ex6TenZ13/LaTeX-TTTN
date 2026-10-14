@@ -1,0 +1,158 @@
+name: LaTeX PDF and release
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ['v*']
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      refresh_preview:
+        description: 'Refresh the preview from the latest published release (select main)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.event_name != 'release' && !inputs.refresh_preview
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Install pdfLaTeX and preview tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            latexmk texlive-latex-extra texlive-fonts-recommended \
+            texlive-science texlive-pictures tex-gyre poppler-utils
+      - name: Build the report
+        run: |
+          mkdir -p .artifacts
+          latexmk -norc -pdf -no-shell-escape -interaction=nonstopmode \
+            -halt-on-error -file-line-error -outdir=.artifacts Bao_cao_TTTN.tex
+          test -s .artifacts/Bao_cao_TTTN.pdf
+          pdfinfo .artifacts/Bao_cao_TTTN.pdf
+      - name: Render the first page
+        run: |
+          pdftoppm -f 1 -singlefile -scale-to 1400 -png \
+            .artifacts/Bao_cao_TTTN.pdf .artifacts/Bao_cao_TTTN
+      - name: Package and verify committed sources
+        run: python3 .github/scripts/package-source.py
+      - name: Save PDF, preview and source ZIP
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: report-${{ github.sha }}
+          path: |
+            .artifacts/Bao_cao_TTTN.pdf
+            .artifacts/Bao_cao_TTTN.png
+            .artifacts/LaTeX-TTTN-source.zip
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Save LaTeX diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: latex-diagnostics-${{ github.sha }}
+          path: .artifacts/*.log
+          if-no-files-found: ignore
+          include-hidden-files: true
+          retention-days: 7
+
+  draft-release:
+    needs: build
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    concurrency:
+      group: draft-release-${{ github.ref }}
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require a release tag on main history
+        run: git merge-base --is-ancestor HEAD origin/main
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: report-${{ github.sha }}
+          path: release-files
+      - name: Create or update the draft for human review
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --json isDraft > "$RUNNER_TEMP/release.json"; then
+            jq -e '.isDraft == true' "$RUNNER_TEMP/release.json" >/dev/null || {
+              echo 'Refusing to overwrite an already published release.' >&2
+              exit 1
+            }
+            gh release upload "$TAG" \
+              release-files/Bao_cao_TTTN.pdf release-files/LaTeX-TTTN-source.zip --clobber
+          else
+            # A draft is never automatically published by this workflow.
+            printf 'PDF compiled with pdfLaTeX from commit %s.\n\nSource ZIP includes only committed .gitignore, Bao_cao_TTTN.tex, Regulations.tex and figures/.\n\nReview both attachments before publishing this release.\n' \
+              "$GITHUB_SHA" > "$RUNNER_TEMP/release-notes.md"
+            gh release create "$TAG" --verify-tag --draft \
+              --title "$TAG" --notes-file "$RUNNER_TEMP/release-notes.md" \
+              release-files/Bao_cao_TTTN.pdf release-files/LaTeX-TTTN-source.zip
+          fi
+          gh release view "$TAG" --json assets --jq '[.assets[].name] | sort' \
+            | jq -e '. == ["Bao_cao_TTTN.pdf", "LaTeX-TTTN-source.zip"]'
+          echo "Draft $TAG is ready. Review its two attachments, then publish it manually." >> "$GITHUB_STEP_SUMMARY"
+
+  update-preview:
+    if: >-
+      (github.event_name == 'release' && !github.event.release.prerelease) ||
+      (github.event_name == 'workflow_dispatch' && inputs.refresh_preview && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    concurrency:
+      group: latest-release-preview
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: release-preview
+      - name: Render the latest published PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y poppler-utils
+          gh release view --json tagName,url --repo "$GITHUB_REPOSITORY" > release.json
+          latest_tag=$(jq -r '.tagName' release.json)
+          mkdir -p "$RUNNER_TEMP/latest-report"
+          gh release download "$latest_tag" --repo "$GITHUB_REPOSITORY" \
+            --pattern Bao_cao_TTTN.pdf --dir "$RUNNER_TEMP/latest-report"
+          pdftoppm -f 1 -singlefile -scale-to 1400 -png \
+            "$RUNNER_TEMP/latest-report/Bao_cao_TTTN.pdf" Bao_cao_TTTN
+          # Do not pair a new latest-release link with an older preview.
+          test "$latest_tag" = "$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq .tagName)"
+      - name: Commit preview only to release-preview
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Bao_cao_TTTN.png release.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update preview of latest published release'
+            git push origin HEAD:release-preview
+          fi
+          echo 'README preview now represents the latest published PDF.' >> "$GITHUB_STEP_SUMMARY"
