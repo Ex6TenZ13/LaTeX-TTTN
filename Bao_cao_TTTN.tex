@@ -1,0 +1,835 @@
+\documentclass[13pt,a4paper]{extreport}
+
+% ===== Core packages =====
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} % Đổi từ T5 (Tiếng Việt) sang T1 (Tiêu chuẩn tiếng Anh/Châu Âu)
+\usepackage[a4paper,left=3.5cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage[english]{babel} % Chỉ giữ lại English
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{ragged2e} 
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+
+% Fonts
+\usepackage{tgtermes} 
+\usepackage{mathptmx} 
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{xltabular}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\usepackage{indentfirst}
+%\setlength{indent}{2cm}
+\usepackage{url}
+\usepackage{forest}
+\usepackage{caption}
+\usepackage{siunitx}
+\usepackage{textcomp}
+\usepackage{booktabs} 
+\usepackage{float}    
+\usepackage{longtable}
+\usepackage{textgreek} 
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{adjustbox}
+\usepackage{etoolbox}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage[nottoc,notlof,notlot]{tocbibind}
+\usetikzlibrary{arrows.meta,positioning}
+
+% ===== Cover Page Packages =====
+\usepackage{eso-pic}   
+\usepackage{varwidth}  
+
+% --- Listings Configuration ---
+\lstdefinelanguage{st}{
+  morekeywords={
+    IF,THEN,ELSE,ELSIF,END_IF,WHILE,DO,END_WHILE,FOR,TO,BY,END_FOR,
+    VAR,CONST,TRUE,FALSE,NOT,AND,OR,CALL
+  },
+  sensitive=true,
+  morecomment=[s]{(*}{*)},   
+  morecomment=[l]{//},       
+  morestring=[b]"            
+}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\bfseries\color{blue!70!black},
+  commentstyle=\itshape\color{gray!70!black},
+  numbers=left, numberstyle=\tiny, numbersep=8pt,
+  columns=fullflexible,
+  tabsize=2,
+  frame=single,
+  breaklines=true,
+  literate={°}{{$^\circ$}}1
+}
+
+\sisetup{per-mode=symbol,group-separator={,}}
+
+% =================================================================
+% TOC "CHAPTER X." FORMATTING (13PT)
+% =================================================================
+% 1. Prefix "CHAPTER "
+\renewcommand{\cftchappresnum}{CHAPTER }
+
+% 2. Suffix "."
+\renewcommand{\cftchapaftersnum}{.}
+
+% 3. Width for "CHAPTER X." (Increased to 2.6cm because "CHAPTER" is longer than "CHƯƠNG")
+\setlength{\cftchapnumwidth}{2.6cm}
+
+% 4. Chapter row in TOC (13pt Bold)
+\renewcommand{\cftchapfont}{\normalfont\normalsize\bfseries}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+
+% 5. Uppercase Chapter titles in TOC
+\makeatletter
+\patchcmd{\l@chapter}
+  {\numberline}
+  {\uppercase\expandafter{\numberline}}
+  {}{}
+\makeatother
+
+% =================================================================
+% CHAPTER TITLES FORMATTING IN BODY (13PT)
+% =================================================================
+\titleformat{\chapter}[block] 
+  {\normalfont\normalsize\bfseries\filcenter}
+  {CHAPTER\ \thechapter.\ }    % Changed to "CHAPTER X. "
+  {0pt}                       
+  {\MakeUppercase}            
+
+\titlespacing*{\chapter}{0pt}{10pt}{30pt} 
+
+\titleformat{\section}
+  {\normalfont\normalsize\bfseries} 
+  {\thesection.\ }                  
+  {0pt}                             
+  {}                                
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries\itshape} 
+  {\thesubsection.\ }                       
+  {0pt}                                     
+  {}                                        
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+
+% TOC, LOF, LOT Titles Format
+\renewcommand{\cfttoctitlefont}{\hfill\normalfont\normalsize\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill}
+
+\renewcommand{\cftloftitlefont}{\hfill\normalfont\normalsize\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill}
+
+\renewcommand{\cftlottitlefont}{\hfill\normalfont\normalsize\bfseries}
+\renewcommand{\cftafterlottitle}{\hfill}
+
+\setlength{\cftparskip}{0pt} 
+\renewcommand{\cftfigafterpnum}{\vspace{6pt}} 
+\renewcommand{\cfttabafterpnum}{\vspace{6pt}} 
+
+\usepackage[unicode=true, hypertexnames=false, colorlinks=true, linkcolor=blue, bookmarks=true]{hyperref}
+
+
+% =========================================================================
+% 1. MAIN COVER PAGE MACRO (Outer Cover)
+% =========================================================================
+\newcommand{\makeBiaNgoai}[9]{
+  \AddToShipoutPictureBG*{
+    % Inner borders without spine space
+    \put(3.5cm, 2.5cm){\line(1,0){\dimexpr\paperwidth-3.5cm-2.0cm}} 
+    \put(\dimexpr\paperwidth-2.0cm, 2.5cm){\line(0,1){\dimexpr\paperheight-2.5cm-2.5cm}} 
+    \put(3.5cm, \dimexpr\paperheight-2.5cm){\line(1,0){\dimexpr\paperwidth-3.5cm-2.0cm}} 
+    \put(3.5cm, 2.5cm){\line(0,1){\dimexpr\paperheight-2.5cm-2.5cm}} 
+  }
+  
+  \thispagestyle{empty}
+  \begin{center}
+    \vspace*{0.3in}
+    {\fontsize{14pt}{17pt}\selectfont #1} \\
+    {\fontsize{14pt}{17pt}\selectfont\bfseries #2} \\
+    {\fontsize{14pt}{16pt}\selectfont\bfseries #6}
+    
+    \vspace{0.01in}
+    {\rule{6cm}{0.6pt}} 
+    
+    \vspace{0.9in}
+
+    \begin{tabular}{@{}c@{\hspace{1.5cm}}c@{}}
+
+    % University logo
+    \parbox[c][3.0cm][c]{3.0cm}{
+        \centering
+        \includegraphics[
+            height=2.6cm,
+            keepaspectratio
+        ]{\UniversityLogo}
+    }
+
+    &
+
+    % Faculty logo
+    \parbox[c][3.0cm][c]{3.0cm}{
+        \centering
+        \includegraphics[
+            height=2.6cm,
+            keepaspectratio
+        ]{\FacultyLogo}
+    }
+
+    \end{tabular}
+
+    \vspace{1.2in}
+    {\fontsize{24pt}{22pt}\selectfont\bfseries #5} 
+
+    \begin{flushleft}
+      
+    \vspace{0.15in}
+    \hspace{0.15in}
+    {\fontsize{13pt}{22pt}\selectfont\bfseries INTERNSHIP ORGANIZATION: } {\fontsize{13pt}{22pt}\selectfont #9}
+
+    \end{flushleft}
+
+    \vspace{0.9in}
+
+  {\fontsize{14pt}{18pt}\selectfont
+  \begin{tabular}{@{}r@{\hspace{0.25cm}}l@{}}
+    \bfseries Author:     & #3 \\[0.25cm]
+    \bfseries Class:      & #4 \\[0.25cm]
+    \bfseries Supervisor: & #7
+  \end{tabular}
+  }
+
+  \end{center}
+
+  
+
+  \vfill
+
+  \begin{center}
+    {\fontsize{14pt}{16pt}\selectfont #8}
+  \end{center}
+  \clearpage
+
+}
+% Logo files
+\newcommand{\UniversityLogo}{tnut.jpg}
+\newcommand{\FacultyLogo}{fit.jpg}
+% =========================================================================
+% 2. SUB COVER PAGE MACRO (Inner Cover)
+% =========================================================================
+
+
+\begin{document}
+\setstretch{1.3}
+\justifying
+\pagenumbering{gobble}
+\input{Regulations.tex}
+\makeBiaNgoai
+  {THAI NGUYEN UNIVERSITY OF TECHNOLOGY}                                   
+  {FACULTY OF INTERNATIONAL TRAINING}                   
+  {\makebox[5cm][l]{\dotfill}}                                    
+  {\makebox[2cm][l]{\dotfill}}  
+  {INTERNSHIP REPORT}                            
+  {ENGINEERING AND TECHNOLOGY DEPARTMENT}                    
+  {\makebox[5cm][l]{\dotfill}}                                                                     
+  {Thai Nguyen - \the\year}
+  {\dotfill}                              
+\clearpage
+
+% =========================================================
+% COMMENTS OF THE INTERNSHIP HOST ORGANIZATION
+% =========================================================
+
+\clearpage
+\thispagestyle{empty}
+
+% Dotted line command
+\newcommand{\internshipdotline}{%
+    \noindent
+    \leaders\hbox{\kern0.15em.\kern0.15em}\hfill
+    \kern0pt
+    \par
+}
+
+% ---------------------------------------------------------
+% TITLE
+% ---------------------------------------------------------
+
+\begin{center}
+    {\fontsize{18pt}{22pt}\selectfont\bfseries
+    COMMENTS OF THE INTERNSHIP\\
+    HOST ORGANIZATION}
+\end{center}
+
+\vspace{0.8cm}
+
+% ---------------------------------------------------------
+% STUDENT INFORMATION
+% ---------------------------------------------------------
+
+{\fontsize{14pt}{18pt}\selectfont
+
+\noindent
+\begin{tabular*}{\textwidth}
+{@{\extracolsep{\fill}}l l l l}
+
+    Full name of intern:
+    &
+    \makebox[7.0cm][l]{\dotfill}
+    &
+    Class:
+    &
+    \makebox[2.1cm][l]{\dotfill}
+
+\end{tabular*}
+
+}
+
+\vspace{0.55cm}
+
+% ---------------------------------------------------------
+% COMMENTS
+% ---------------------------------------------------------
+
+{\fontsize{13pt}{17pt}\selectfont
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+\vspace{0.32cm}
+
+\internshipdotline
+
+}
+
+\vspace{0.6cm}
+
+% ---------------------------------------------------------
+% SCORE
+% ---------------------------------------------------------
+
+{\fontsize{14pt}{18pt}\selectfont
+
+\noindent
+\hspace{0.8cm}
+Score:
+\makebox[3.0cm][l]{\dotfill}
+
+}
+
+\vspace{1.5cm}
+
+% ---------------------------------------------------------
+% DATE AND SIGNATURE
+% ---------------------------------------------------------
+
+\begin{flushright}
+
+\begin{minipage}{7.5cm}
+    \centering
+
+    {\fontsize{13pt}{17pt}\selectfont\itshape
+    Day \makebox[0.8cm][l]{\dotfill}\,
+    Month \makebox[0.8cm][l]{\dotfill}\,
+    Year \the\year
+    }
+
+    \vspace{0.35cm}
+
+    {\fontsize{14pt}{18pt}\selectfont\bfseries
+    INTERNSHIP HOST ORGANIZATION}
+
+    \vspace{0.15cm}
+
+    {\fontsize{13pt}{17pt}\selectfont\itshape
+    (Signature and official seal)}
+
+\end{minipage}
+
+\end{flushright}
+\clearpage
+
+% ================================================================
+% SUPERVISOR'S EVALUATION AND
+% GRADUATION INTERNSHIP DEFENSE RESULTS
+% ================================================================
+
+\clearpage
+\thispagestyle{empty}
+
+% ------------------------------------------------
+% Dotted line for handwritten comments
+% ------------------------------------------------
+\providecommand{\evaldotline}{%
+    \noindent
+    \leaders\hbox{\kern0.12em.\kern0.12em}\hfill
+    \kern0pt
+    \par
+}
+
+% Two dotted lines for each evaluation item
+\providecommand{\evaltwolines}{%
+    \vspace{0.15cm}
+    \evaldotline
+    \vspace{0.35cm}
+    \evaldotline
+    \vspace{0.45cm}
+}
+
+{\fontsize{13pt}{17pt}\selectfont
+\setstretch{1.3}
+
+% ================================================================
+% TITLE
+% ================================================================
+
+\begin{center}
+    {\fontsize{16pt}{20pt}\selectfont\bfseries
+    SUPERVISOR'S EVALUATION AND\\
+    GRADUATION INTERNSHIP DEFENSE RESULTS}
+\end{center}
+
+\vspace{0.6cm}
+
+% ================================================================
+% STUDENT INFORMATION
+% ================================================================
+
+\noindent
+\begin{tabular}{@{}l@{\hspace{0.4cm}}l@{}}
+    Student: &
+    \makebox[10cm][l]{\dotfill}
+    \\[0.4cm]
+
+    Class: &
+    \makebox[10cm][l]{\dotfill}
+    \\[0.4cm]
+
+    Internship organization: &
+    \makebox[7.3cm][l]{\dotfill}
+\end{tabular}
+
+\vspace{0.7cm}
+
+% ================================================================
+% I. INTERNSHIP PROGRESS AND ATTITUDE
+% ================================================================
+
+\noindent
+{\bfseries I.\quad INTERNSHIP PROGRESS AND STUDENT'S ATTITUDE}
+
+\vspace{0.35cm}
+
+\noindent
+\textbf{1. Communication with the supervisor:}
+
+\evaltwolines
+
+\noindent
+\textbf{2. Internship attendance and relationship with the host organization:}
+
+\evaltwolines
+
+\noindent
+\textbf{3. Internship progress:}
+
+\evaltwolines
+
+
+% ================================================================
+% II. REPORT CONTENT
+% ================================================================
+
+\vspace{0.25cm}
+
+\noindent
+{\bfseries II.\quad REPORT CONTENT}
+
+\vspace{0.35cm}
+
+\noindent
+\textbf{1. Completion of the assigned internship tasks:}
+
+\evaltwolines
+
+\noindent
+\textbf{2. Collection and processing of practical data:}
+
+\evaltwolines
+
+\noindent
+\textbf{3. Ability to relate theoretical knowledge to practical work:}
+
+\evaltwolines
+
+} % End font size
+
+
+% ================================================================
+% PAGE 2
+% ================================================================
+
+\clearpage
+\thispagestyle{empty}
+
+{\fontsize{13pt}{17pt}\selectfont
+\setstretch{1.3}
+
+% ================================================================
+% III. PRESENTATION
+% ================================================================
+
+\noindent
+{\bfseries III.\quad REPORT PRESENTATION}
+
+\evaltwolines
+\evaldotline
+
+\vspace{0.7cm}
+
+% ================================================================
+% IV. OTHER COMMENTS
+% ================================================================
+
+\noindent
+{\bfseries IV.\quad OTHER COMMENTS}
+
+\evaltwolines
+\evaldotline
+
+\vspace{0.7cm}
+
+% ================================================================
+% V. SUPERVISOR'S OPINION
+% ================================================================
+
+\noindent
+{\bfseries V.\quad SUPERVISOR'S OPINION}
+
+\vspace{0.15cm}
+
+\noindent
+\textit{(Approval or disapproval for the student to proceed to the defense)}
+
+\vspace{0.3cm}
+
+\evaldotline
+\vspace{0.4cm}
+
+\evaldotline
+\vspace{0.4cm}
+
+\evaldotline
+
+
+% ================================================================
+% DATE AND SUPERVISOR'S SIGNATURE
+% ================================================================
+
+\vspace{1.0cm}
+
+\begin{flushright}
+\begin{minipage}{7.5cm}
+    \centering
+
+    {\itshape
+    Date \makebox[0.8cm][l]{\dotfill}\,
+    Month \makebox[0.8cm][l]{\dotfill}\,
+    Year \the\year
+    }
+
+    \vspace{0.35cm}
+
+    \textbf{SUPERVISOR}
+
+    \vspace{0.15cm}
+
+    \textit{(Signature and full name)}
+
+    \vspace{2.0cm}
+
+\end{minipage}
+\end{flushright}
+
+
+% ================================================================
+% DIVIDING LINE
+% ================================================================
+
+\vspace{0.5cm}
+
+\noindent
+\rule{\textwidth}{0.5pt}
+
+\vspace{0.5cm}
+
+
+% ================================================================
+% VI. DEFENSE RESULT
+% ================================================================
+
+\noindent
+\begin{tabular*}{\textwidth}
+{@{\extracolsep{\fill}}l c}
+
+    {\bfseries VI.\quad DEFENSE RESULT:}
+    &
+    {\bfseries SCORE:}
+    \makebox[2.5cm][l]{\dotfill}
+
+\end{tabular*}
+
+\vspace{0.7cm}
+
+\begin{flushright}
+\begin{minipage}{7.5cm}
+    \centering
+
+    \textbf{DEFENSE COMMITTEE}
+
+    \vspace{0.15cm}
+
+    \textit{(Signature and full name)}
+
+    \vspace{2.0cm}
+
+\end{minipage}
+\end{flushright}
+
+} % End font size
+
+\clearpage
+
+
+\clearpage
+\renewcommand{\contentsname}{\centerline{TABLE OF CONTENTS}}
+\tableofcontents
+
+\clearpage
+\chapter*{List of Symbols and Abbreviations}
+\vspace{0.2cm}
+\addcontentsline{toc}{chapter}{List of Symbols and Abbreviations}
+
+\newcounter{sttviettat}
+\newcommand{\tudongstt}{\stepcounter{sttviettat}\thesttviettat}
+(Example of the table of symbols and abbreviations)
+\begin{longtable}{|>{\centering\arraybackslash}m{0.08\textwidth}|>{\centering\arraybackslash}m{0.20\textwidth}|>{\centering\arraybackslash}m{0.12\textwidth}|>{\centering\arraybackslash}m{0.53\textwidth}|}
+    \hline
+    \textbf{No} & \textbf{Symbol / Abbreviation} & \textbf{Unit} & \multicolumn{1}{c|}{\textbf{Definition}} \\ \hline
+    \endfirsthead
+    
+    \hline
+    \textbf{No} & \textbf{Symbol / Abbreviation} & \textbf{Unit} & \multicolumn{1}{c|}{\textbf{Definition}} \\ \hline
+    \endhead
+    
+    \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+
+    % --- DANH SÁCH TỪ VIẾT TẮT VÀ KÝ HIỆU ---
+    \tudongstt & AC & - & Alternating Current \\ \hline
+    \tudongstt & DC & - & Direct Current \\ \hline
+    
+    
+    % --- THÊM CÁC ĐẠI LƯỢNG TOÁN HỌC / ĐIỆN TỬ ---
+    \tudongstt & $V_{dc}$ & V & Direct Current Voltage\\ \hline
+    \tudongstt & $R$ & $\Omega$ & Resistance \\ \hline
+    \tudongstt & $L$ & H & Inductance \\ \hline
+    \tudongstt & $\omega$ & rad/s & Angular velocity \\ \hline
+    \tudongstt & $T_e$ & N.m & Electromagnetic torque \\ \hline
+    \tudongstt & $J$ & kg.$m^2$ & Moment of inertia \\ \hline
+    \tudongstt & $i$ & A & Current \\ \hline
+\end{longtable}
+\clearpage
+
+\clearpage
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+
+\clearpage
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+
+
+
+
+\justifying
+\chapter*{Abstract}
+\vspace{0.2cm}
+\addcontentsline{toc}{chapter}{Abstract}
+\clearpage
+
+
+
+
+
+
+
+
+
+\justifying
+\pagenumbering{arabic}
+\chapter{Title of Chapter 1}
+
+\justifying
+\section{Section 1.1}
+
+\justifying
+\subsection{Subsection 1.1.1}
+
+\justifying
+\subsection{Subsection 1.1.2}
+
+\justifying
+\subsection{Subsection ....}
+
+\justifying
+\section{Section 1.2}
+
+\justifying
+\subsection{Subsection 1.2.1}
+
+\justifying
+\subsection{Subsection 1.2.2}
+
+\justifying
+\subsection{Subsection ....}
+
+\justifying
+\section{Section ...}
+
+\justifying
+\subsection{Subsection ...}
+
+\justifying
+\subsection{Subsection ...}
+
+\justifying
+\subsection{Subsection ....}
+
+
+
+\justifying
+\chapter{Title of Chapter 2}
+
+
+
+
+
+\justifying
+\chapter{Title of Chapter 3}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bibliographystyle{ieeetr}
+
+\bibliography{References.bib}
+
+
+
+
+
+
+
+\end{document}
