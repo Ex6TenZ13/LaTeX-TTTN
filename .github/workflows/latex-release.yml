@@ -106,7 +106,7 @@ jobs:
             # A draft is never automatically published by this workflow.
             printf 'PDF compiled with pdfLaTeX from commit %s.\n\nSource ZIP includes only committed .gitignore, Bao_cao_TTTN.tex, Regulations.tex and figures/.\n\nReview both attachments before publishing this release.\n' \
               "$GITHUB_SHA" > "$RUNNER_TEMP/release-notes.md"
-            gh release create "$TAG" --verify-tag --draft --latest \
+            gh release create "$TAG" --verify-tag --draft \
               --title "$TAG" --notes-file "$RUNNER_TEMP/release-notes.md" \
               release-files/Bao_cao_TTTN.pdf release-files/LaTeX-TTTN-source.zip
           fi
