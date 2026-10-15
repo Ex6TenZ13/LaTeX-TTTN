@@ -142,15 +142,17 @@ jobs:
           mkdir -p "$RUNNER_TEMP/latest-report"
           gh release download "$latest_tag" --repo "$GITHUB_REPOSITORY" \
             --pattern Bao_cao_TTTN.pdf --dir "$RUNNER_TEMP/latest-report"
+          # GitHub's blob page renders PDFs; release asset links download them.
+          cp "$RUNNER_TEMP/latest-report/Bao_cao_TTTN.pdf" Bao_cao_TTTN.pdf
           pdftoppm -f 1 -singlefile -scale-to 1400 -png \
-            "$RUNNER_TEMP/latest-report/Bao_cao_TTTN.pdf" Bao_cao_TTTN
+            Bao_cao_TTTN.pdf Bao_cao_TTTN
           # Do not pair a new latest-release link with an older preview.
           test "$latest_tag" = "$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq .tagName)"
       - name: Commit preview only to release-preview
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add Bao_cao_TTTN.png release.json
+          git add Bao_cao_TTTN.pdf Bao_cao_TTTN.png release.json
           if ! git diff --cached --quiet; then
             git commit -m 'Update preview of latest published release'
             git push origin HEAD:release-preview
