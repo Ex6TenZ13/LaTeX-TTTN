@@ -12,7 +12,7 @@
 
 [![Trang đầu của báo cáo](https://github.com/Ex6TenZ13/LaTeX-TTTN/blob/release-preview/Bao_cao_TTTN.png?raw=true)](https://github.com/Ex6TenZ13/LaTeX-TTTN/blob/release-preview/Bao_cao_TTTN.pdf)
 
-Bấm ảnh để xem PDF trong trình duyệt. Mở tab mới: giữ **⌘** khi bấm trên Mac, **Ctrl** trên Windows/Linux, hoặc chọn **Open Link in New Tab** trong menu chuột phải.
+Bấm vào ảnh để xem PDF mẫu báo cáo và các quy định về hình thức, cách trình bày báo cáo bằng LaTeX.
 
 **[Xem PDF mới nhất](https://github.com/Ex6TenZ13/LaTeX-TTTN/blob/release-preview/Bao_cao_TTTN.pdf)** · **[Tải ZIP](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN.zip)** · [Tất cả bản phát hành](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases)
 
@@ -66,7 +66,7 @@ Nếu SumatraPDF được cài ở thư mục khác, hãy sửa đường dẫn 
 
 ### PDF preview and releases
 
-Click the preview image above to open the PDF in your browser. To open it in a new tab, hold **⌘** while clicking on Mac, **Ctrl** on Windows/Linux, or choose **Open Link in New Tab** from the context menu.
+Click the image to view a sample report PDF and the guidelines for report formatting and presentation in LaTeX.
 
 **[View the latest PDF](https://github.com/Ex6TenZ13/LaTeX-TTTN/blob/release-preview/Bao_cao_TTTN.pdf)** · **[Download the ZIP](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN.zip)** · [All releases](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases)
 
