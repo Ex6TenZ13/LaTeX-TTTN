@@ -46,14 +46,14 @@ jobs:
             .artifacts/Bao_cao_TTTN.pdf .artifacts/Bao_cao_TTTN
       - name: Package and verify committed sources
         run: python3 .github/scripts/package-source.py
-      - name: Save PDF, preview and source ZIP
+      - name: Save PDF, preview and ZIP build artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: report-${{ github.sha }}
           path: |
             .artifacts/Bao_cao_TTTN.pdf
             .artifacts/Bao_cao_TTTN.png
-            .artifacts/LaTeX-TTTN-source.zip
+            .artifacts/LaTeX-TTTN.zip
           if-no-files-found: error
           include-hidden-files: true
           retention-days: 14
@@ -101,18 +101,18 @@ jobs:
               exit 1
             }
             gh release upload "$TAG" \
-              release-files/Bao_cao_TTTN.pdf release-files/LaTeX-TTTN-source.zip --clobber
+              release-files/LaTeX-TTTN.zip --clobber
           else
             # A draft is never automatically published by this workflow.
-            printf 'PDF compiled with pdfLaTeX from commit %s.\n\nSource ZIP includes only committed .gitignore, Bao_cao_TTTN.tex, Regulations.tex and figures/.\n\nReview both attachments before publishing this release.\n' \
+            printf 'Source files packaged from commit %s.\n\nThis release has one asset: LaTeX-TTTN.zip. It contains Bao_cao_TTTN.tex, References.bib, Regulations.tex and figures/. The compiled PDF is kept separately in the README preview branch.\n\nReview the ZIP before publishing this release.\n' \
               "$GITHUB_SHA" > "$RUNNER_TEMP/release-notes.md"
             gh release create "$TAG" --verify-tag --draft \
               --title "$TAG" --notes-file "$RUNNER_TEMP/release-notes.md" \
-              release-files/Bao_cao_TTTN.pdf release-files/LaTeX-TTTN-source.zip
+              release-files/LaTeX-TTTN.zip
           fi
           gh release view "$TAG" --json assets --jq '[.assets[].name] | sort' \
-            | jq -e '. == ["Bao_cao_TTTN.pdf", "LaTeX-TTTN-source.zip"]'
-          echo "Draft $TAG is ready. Review its two attachments, then publish it manually." >> "$GITHUB_STEP_SUMMARY"
+            | jq -e '. == ["LaTeX-TTTN.zip"]'
+          echo "Draft $TAG is ready. Review its ZIP attachment, then publish it manually." >> "$GITHUB_STEP_SUMMARY"
 
   update-preview:
     if: >-
@@ -131,19 +131,33 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: release-preview
-      - name: Render the latest published PDF
+      - name: Install TeX and preview tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            latexmk texlive-latex-extra texlive-fonts-recommended \
+            texlive-science texlive-pictures tex-gyre poppler-utils unzip
+      - name: Build the PDF from the latest published ZIP
         shell: bash
         run: |
           set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y poppler-utils
           gh release view --json tagName,url --repo "$GITHUB_REPOSITORY" > release.json
           latest_tag=$(jq -r '.tagName' release.json)
-          mkdir -p "$RUNNER_TEMP/latest-report"
+          mkdir -p "$RUNNER_TEMP/latest-report" "$RUNNER_TEMP/latest-source"
           gh release download "$latest_tag" --repo "$GITHUB_REPOSITORY" \
-            --pattern Bao_cao_TTTN.pdf --dir "$RUNNER_TEMP/latest-report"
-          # GitHub's blob page renders PDFs; release asset links download them.
-          cp "$RUNNER_TEMP/latest-report/Bao_cao_TTTN.pdf" Bao_cao_TTTN.pdf
+            --pattern LaTeX-TTTN.zip --dir "$RUNNER_TEMP/latest-report"
+          unzip -q "$RUNNER_TEMP/latest-report/LaTeX-TTTN.zip" \
+            -d "$RUNNER_TEMP/latest-source"
+          test -s "$RUNNER_TEMP/latest-source/Bao_cao_TTTN.tex"
+          test -s "$RUNNER_TEMP/latest-source/References.bib"
+          test -s "$RUNNER_TEMP/latest-source/Regulations.tex"
+          mkdir -p "$RUNNER_TEMP/latest-source/.artifacts"
+          (
+            cd "$RUNNER_TEMP/latest-source"
+            latexmk -norc -pdf -no-shell-escape -interaction=nonstopmode \
+              -halt-on-error -file-line-error -outdir=.artifacts Bao_cao_TTTN.tex
+          )
+          cp "$RUNNER_TEMP/latest-source/.artifacts/Bao_cao_TTTN.pdf" Bao_cao_TTTN.pdf
           pdftoppm -f 1 -singlefile -scale-to 1400 -png \
             Bao_cao_TTTN.pdf Bao_cao_TTTN
           # Do not pair a new latest-release link with an older preview.

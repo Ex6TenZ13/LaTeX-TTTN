@@ -14,11 +14,11 @@
 
 Bấm ảnh để xem PDF trong trình duyệt. Mở tab mới: giữ **⌘** khi bấm trên Mac, **Ctrl** trên Windows/Linux, hoặc chọn **Open Link in New Tab** trong menu chuột phải.
 
-**[Tải PDF mới nhất](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/Bao_cao_TTTN.pdf)** · **[Tải mã nguồn ZIP](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN-source.zip)** · [Tất cả bản phát hành](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases)
+**[Xem PDF mới nhất](https://github.com/Ex6TenZ13/LaTeX-TTTN/blob/release-preview/Bao_cao_TTTN.pdf)** · **[Tải ZIP](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN.zip)** · [Tất cả bản phát hành](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases)
 
 ## Tải và sử dụng gói ZIP
 
-1. Tải [gói ZIP mã nguồn của bản phát hành mới nhất](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN-source.zip) từ mục **Assets** trong trang Releases.
+1. Tải [gói ZIP của bản phát hành mới nhất](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN.zip) từ mục **Assets** trong trang Releases.
 2. Giải nén ZIP vào một thư mục trên máy tính; không mở hoặc biên dịch tệp `.tex` trực tiếp bên trong ZIP. Giữ nguyên cấu trúc thư mục, đặc biệt là thư mục `figures`.
 3. Mở TeXstudio, dùng **File → Open** để đi tới thư mục vừa giải nén và mở `Bao_cao_TTTN.tex`. TeXstudio sẽ hiển thị các tệp cùng thư mục trong **File Explorer**; chọn **Build & View** hoặc nhấn `F5` để biên dịch và xem PDF.
 
@@ -68,15 +68,15 @@ Nếu SumatraPDF được cài ở thư mục khác, hãy sửa đường dẫn 
 
 Click the preview image above to open the PDF in your browser. To open it in a new tab, hold **⌘** while clicking on Mac, **Ctrl** on Windows/Linux, or choose **Open Link in New Tab** from the context menu.
 
-**[Download the latest PDF](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/Bao_cao_TTTN.pdf)** · **[Download the source ZIP](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN-source.zip)** · [All releases](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases)
+**[View the latest PDF](https://github.com/Ex6TenZ13/LaTeX-TTTN/blob/release-preview/Bao_cao_TTTN.pdf)** · **[Download the ZIP](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN.zip)** · [All releases](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases)
 
 ### Download and use the ZIP package
 
-1. Download the [latest source ZIP package](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN-source.zip) from the **Assets** section of the Releases page.
+1. Download the [latest ZIP package](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest/download/LaTeX-TTTN.zip) from the **Assets** section of the Releases page.
 2. Extract the ZIP archive to a folder on your computer. Do not open or compile the `.tex` file directly from inside the archive. Keep the folder structure intact, especially the `figures` folder.
 3. In TeXstudio, choose **File → Open**, navigate to the extracted folder, and open `Bao_cao_TTTN.tex`. TeXstudio's **File Explorer** shows the other files in the same folder. Select **Build & View** or press `F5` to compile the document and view the PDF.
 
-The ZIP package contains the template's source files and resources, not the compiled PDF. If TeXstudio/MiKTeX asks to install missing packages, allow the installation and compile again. The archive includes `.gitignore`, `Bao_cao_TTTN.tex`, `Regulations.tex`, and the committed files in `figures/`.
+The ZIP package contains the template's source files and resources, not the compiled PDF. If TeXstudio/MiKTeX asks to install missing packages, allow the installation and compile again. The archive contains only `Bao_cao_TTTN.tex`, `References.bib`, `Regulations.tex`, and the files in `figures/`.
 
 ### Installing on Windows
 

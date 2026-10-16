@@ -13,7 +13,7 @@ def git(*args):
 
 def package(output):
     commit = git("rev-parse", "HEAD").decode().strip()
-    paths = [".gitignore", "Bao_cao_TTTN.tex", "Regulations.tex", "figures"]
+    paths = ["Bao_cao_TTTN.tex", "References.bib", "Regulations.tex", "figures"]
     entries = git("ls-tree", "-rz", commit, "--", *paths).split(b"\0")
     expected = {}
     for entry in filter(None, entries):
@@ -51,4 +51,4 @@ def package(output):
 
 
 if __name__ == "__main__":
-    package(sys.argv[1] if len(sys.argv) > 1 else ".artifacts/LaTeX-TTTN-source.zip")
+    package(sys.argv[1] if len(sys.argv) > 1 else ".artifacts/LaTeX-TTTN.zip")
