@@ -2,6 +2,12 @@
 
 [![LaTeX PDF and release](https://github.com/Ex6TenZ13/LaTeX-TTTN/actions/workflows/latex-release.yml/badge.svg?branch=main)](https://github.com/Ex6TenZ13/LaTeX-TTTN/actions/workflows/latex-release.yml)
 
+> 📣 **Mẫu LaTeX TTTN đang trong quá trình chỉnh sửa và hoàn thiện**
+>
+> Nội dung, cấu trúc và định dạng trong các tệp `.tex` có thể thay đổi; PDF và ảnh xem trước sẽ được cập nhật theo. Nếu đang sử dụng mẫu, hãy kiểm tra [bản phát hành mới nhất](https://github.com/Ex6TenZ13/LaTeX-TTTN/releases/latest) trước khi bắt đầu hoặc tiếp tục báo cáo.
+>
+> Có ý tưởng hoặc phát hiện lỗi? Hãy gửi góp ý tại [Issues](https://github.com/Ex6TenZ13/LaTeX-TTTN/issues). Vui lòng nêu tệp hoặc phần liên quan, đề xuất hoặc vấn đề, và ảnh minh họa nếu phù hợp.
+
 [![Trang đầu của báo cáo](https://github.com/Ex6TenZ13/LaTeX-TTTN/blob/release-preview/Bao_cao_TTTN.png?raw=true)](https://github.com/Ex6TenZ13/LaTeX-TTTN/blob/release-preview/Bao_cao_TTTN.pdf)
 
 Bấm ảnh để xem PDF trong trình duyệt. Mở tab mới: giữ **⌘** khi bấm trên Mac, **Ctrl** trên Windows/Linux, hoặc chọn **Open Link in New Tab** trong menu chuột phải.
