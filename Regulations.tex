@@ -30,6 +30,19 @@
 \setstretch{1.3}
 \justifying
 
+% Regulation-only heading levels. These local commands keep the
+% guidance readable without changing the report's counters.
+\newcommand{\RegSection}[2]{%
+    \par\vspace{0.45cm}\noindent
+    {\fontsize{15pt}{19pt}\selectfont\bfseries #1.\quad #2}\par
+    \vspace{0.12cm}}
+\newcommand{\RegSubsection}[1]{%
+    \par\vspace{0.18cm}\noindent
+    {\fontsize{13pt}{17pt}\selectfont\bfseries #1}\par
+    \vspace{0.06cm}}
+\newcommand{\RegExample}{\textbf{Example.}\quad}
+
+
 \noindent
 \textbf{Note:}
 This section is provided for guidance only and is included in the main
@@ -44,7 +57,7 @@ final internship report.
 % ================================================================
 
 \noindent
-\textbf{I.\quad GENERAL REQUIREMENTS}
+\RegSection{I}{GENERAL REQUIREMENTS}
 
 \vspace{0.15cm}
 
@@ -67,7 +80,7 @@ document formatting.
 % ================================================================
 
 \noindent
-\textbf{II.\quad REPORT STRUCTURE}
+\RegSection{II}{REPORT STRUCTURE}
 
 \vspace{0.15cm}
 
@@ -98,7 +111,7 @@ with Chapter 1.
 % ================================================================
 
 \noindent
-\textbf{III.\quad PAGE SIZE AND MARGINS}
+\RegSection{III}{PAGE SIZE AND MARGINS}
 
 \vspace{0.15cm}
 
@@ -123,7 +136,7 @@ modified by students.
 % ================================================================
 
 \noindent
-\textbf{IV.\quad FONT, FONT SIZE, AND LINE SPACING}
+\RegSection{IV}{FONT, FONT SIZE, AND LINE SPACING}
 
 \vspace{0.15cm}
 
@@ -144,7 +157,7 @@ be controlled by the template.
 % ================================================================
 
 \noindent
-\textbf{V.\quad OUTER COVER}
+\RegSection{V}{OUTER COVER}
 
 \vspace{0.15cm}
 
@@ -174,7 +187,7 @@ modify the cover-page layout unless instructed otherwise.
 % ================================================================
 
 \noindent
-\textbf{VI.\quad COMMENTS OF THE INTERNSHIP HOST ORGANIZATION}
+\RegSection{VI}{COMMENTS OF THE INTERNSHIP HOST ORGANIZATION}
 
 \vspace{0.15cm}
 
@@ -202,7 +215,7 @@ specifically authorized.
 % ================================================================
 
 \noindent
-\textbf{VII.\quad SUPERVISOR'S EVALUATION AND DEFENSE RESULTS}
+\RegSection{VII}{SUPERVISOR'S EVALUATION AND DEFENSE RESULTS}
 
 \vspace{0.15cm}
 
@@ -232,7 +245,7 @@ are officially determined.
 % ================================================================
 
 \noindent
-\textbf{VIII.\quad CHAPTERS, SECTIONS, AND SUBSECTIONS}
+\RegSection{VIII}{CHAPTERS, SECTIONS, AND SUBSECTIONS}
 
 \vspace{0.15cm}
 
@@ -263,7 +276,7 @@ Chapter--Section--Subsection is sufficient.
 % ================================================================
 
 \noindent
-\textbf{IX.\quad ORGANIZATION OF THE MAIN CONTENT}
+\RegSection{IX}{ORGANIZATION OF THE MAIN CONTENT}
 
 \vspace{0.15cm}
 
@@ -290,7 +303,7 @@ be included merely to increase report length.
 % ================================================================
 
 \noindent
-\textbf{X.\quad TABLE OF CONTENTS}
+\RegSection{X}{TABLE OF CONTENTS}
 
 \vspace{0.15cm}
 
@@ -313,7 +326,7 @@ numbers and entries are correctly updated.
 % ================================================================
 
 \noindent
-\textbf{XI.\quad LIST OF SYMBOLS AND ABBREVIATIONS}
+\RegSection{XI}{LIST OF SYMBOLS AND ABBREVIATIONS}
 
 \vspace{0.15cm}
 
@@ -342,7 +355,7 @@ the main text.
 % ================================================================
 
 \noindent
-\textbf{XII.\quad FIGURES, DIAGRAMS, AND PHOTOGRAPHS}
+\RegSection{XII}{FIGURES, DIAGRAMS, AND PHOTOGRAPHS}
 
 \vspace{0.15cm}
 
@@ -384,6 +397,89 @@ information without permission from the internship organization.
 Vector graphics or high-resolution images are recommended whenever
 possible.
 
+
+\RegSubsection{Rendered examples}
+
+The following examples show how source code becomes visible in the
+compiled report. Captions remain below figures, and references use the
+generated figure number.
+
+\RegExample A single figure:
+
+\begin{center}
+    \includegraphics[width=0.28\textwidth]{figures/fit.jpg}
+    \par\smallskip
+    \textbf{Example image: internship documentation}
+\end{center}
+
+\RegSubsection{Two figures side by side}
+
+\RegExample A visual comparison:
+
+\begin{center}
+    \begin{minipage}{0.44\textwidth}
+        \centering
+        \includegraphics[width=0.72\linewidth]{figures/fit.jpg}
+        \par\smallskip (a) Organization example
+    \end{minipage}\hfill
+    \begin{minipage}{0.44\textwidth}
+        \centering
+        \includegraphics[width=0.72\linewidth]{figures/tnut.jpg}
+        \par\smallskip (b) Faculty example
+    \end{minipage}
+    \par\smallskip
+    \textbf{Example pair: two related internship figures}
+\end{center}
+
+Source code for the pair:
+
+\begin{verbatim}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/fit.jpg}
+        \par\smallskip (a) Organization example
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/tnut.jpg}
+        \par\smallskip (b) Faculty example
+    \end{minipage}
+    \caption{Comparison of two internship figures}
+    \label{fig:internship-comparison}
+\end{figure}
+\end{verbatim}
+
+\RegSubsection{Wide or full-page figures}
+
+A detailed figure may use the full text width or a dedicated page when
+its labels cannot be read at a smaller size.
+
+\RegExample Dedicated-page visual:
+
+\clearpage
+\begin{center}
+    \includegraphics[width=0.82\textwidth,height=0.68\textheight,
+                     keepaspectratio]{figures/tnut.jpg}
+    \par\smallskip
+    \textbf{Example: a figure given a dedicated page}
+\end{center}
+\clearpage
+
+Source code for a wide figure:
+
+\begin{verbatim}
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth,height=0.68\textheight,
+                     keepaspectratio]{figures/tnut.jpg}
+    \caption{Internship figure shown on a wide page}
+    \label{fig:wide-internship}
+\end{figure}
+\end{verbatim}
+
+
 \vspace{0.3cm}
 
 % ================================================================
@@ -391,7 +487,7 @@ possible.
 % ================================================================
 
 \noindent
-\textbf{XIII.\quad TABLES}
+\RegSection{XIII}{TABLES}
 
 \vspace{0.15cm}
 
@@ -430,6 +526,166 @@ Students shall not manually type table numbers.
 Tables should be created directly in \LaTeX{} rather than inserted as
 screenshots whenever practical.
 
+
+\RegSubsection{Rendered short table}
+
+\RegExample The compiled table appears directly in the report:
+
+\begin{center}
+\textbf{Internship schedule}\par\smallskip
+\begin{tabular}{|l|l|l|}
+    \hline
+    Week & Task & Result \\
+    \hline
+    1 & Orientation & Completed \\
+    2 & System study & Completed \\
+    3 & Assigned task & In progress \\
+    \hline
+\end{tabular}
+\end{center}
+
+\RegSubsection{Long tables spanning pages}
+
+Use \verb|longtable| when the schedule or measurement record continues
+onto another page. The heading between \verb|\endfirsthead| and
+\verb|\endhead| is repeated on every continuation page.
+
+\RegExample Rendered long table:
+
+\begin{longtable}{|c|l|r|}
+\caption*{Example: internship measurements across tests}\\
+\hline
+\textbf{Test} & \textbf{Condition} & \textbf{Value} \\
+\hline
+\endfirsthead
+\multicolumn{3}{l}{\textit{Internship measurements (continued)}}\\
+\hline
+\textbf{Test} & \textbf{Condition} & \textbf{Value} \\
+\hline
+\endhead
+01 & Initial inspection & 12.4 \\\hline
+02 & Initial inspection & 12.7 \\\hline
+03 & System study & 11.9 \\\hline
+04 & System study & 12.0 \\\hline
+05 & Task A & 13.1 \\\hline
+06 & Task A & 13.0 \\\hline
+07 & Task B & 12.5 \\\hline
+08 & Task B & 12.6 \\\hline
+09 & Review & 11.8 \\\hline
+10 & Review & 11.9 \\\hline
+11 & Validation & 13.2 \\\hline
+12 & Validation & 13.1 \\\hline
+13 & Initial inspection & 12.4 \\\hline
+14 & Initial inspection & 12.5 \\\hline
+15 & System study & 11.7 \\\hline
+16 & System study & 11.9 \\\hline
+17 & Task A & 13.0 \\\hline
+18 & Task A & 13.2 \\\hline
+19 & Task B & 12.6 \\\hline
+20 & Task B & 12.5 \\\hline
+21 & Review & 11.8 \\\hline
+22 & Review & 11.9 \\\hline
+23 & Validation & 13.1 \\\hline
+24 & Validation & 13.2 \\\hline
+25 & Initial inspection & 12.4 \\\hline
+26 & Initial inspection & 12.6 \\\hline
+27 & System study & 11.8 \\\hline
+28 & System study & 11.9 \\\hline
+29 & Task A & 13.1 \\\hline
+30 & Task A & 13.0 \\\hline
+31 & Task B & 12.5 \\\hline
+32 & Task B & 12.7 \\\hline
+33 & Review & 11.7 \\\hline
+34 & Review & 12.0 \\\hline
+35 & Validation & 13.2 \\\hline
+36 & Validation & 13.1 \\\hline
+37 & Initial inspection & 12.4 \\\hline
+38 & Initial inspection & 12.5 \\\hline
+39 & System study & 11.8 \\\hline
+40 & System study & 11.9 \\\hline
+41 & Task A & 13.1 \\\hline
+42 & Task A & 13.0 \\\hline
+43 & Task B & 12.5 \\\hline
+44 & Task B & 12.6 \\\hline
+45 & Review & 11.8 \\\hline
+46 & Review & 11.9 \\\hline
+47 & Validation & 13.2 \\\hline
+48 & Validation & 13.1 \\\hline
+49 & Initial inspection & 12.4 \\\hline
+50 & Initial inspection & 12.6 \\\hline
+51 & System study & 11.7 \\\hline
+52 & System study & 11.9 \\\hline
+53 & Task A & 13.0 \\\hline
+54 & Task A & 13.2 \\\hline
+55 & Task B & 12.6 \\\hline
+56 & Task B & 12.5 \\\hline
+57 & Review & 11.8 \\\hline
+58 & Review & 11.9 \\\hline
+59 & Validation & 13.1 \\\hline
+60 & Validation & 13.2 \\\hline
+\end{longtable}
+
+Source code for a multi-page table:
+
+\begin{verbatim}
+\begin{longtable}{|c|l|r|}
+\caption{Measurements across internship tests}\label{tab:internship-measurements}\\
+\hline
+\textbf{Test} & \textbf{Condition} & \textbf{Value} \\
+\hline
+\endfirsthead
+\multicolumn{3}{l}{\textit{Measurements (continued)}}\\
+\hline
+\textbf{Test} & \textbf{Condition} & \textbf{Value} \\
+\hline
+\endhead
+01 & Initial inspection & 12.4 \\
+02 & Initial inspection & 12.7 \\
+% Continue rows in the same format.
+\end{longtable}
+\end{verbatim}
+
+\RegSubsection{Wide tables}
+
+When a table has many columns, shorten headings or wrap text first. If
+it remains wider than the margins, use \verb|adjustbox| to constrain it
+to \verb|\textwidth| while keeping the content readable.
+
+\RegExample Rendered wide table:
+
+\begin{center}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{|l|r|r|r|r|r|}
+    \hline
+    Task & Hours & Score & Tests & Issues & Status \\
+    \hline
+    Orientation & 8 & 9.0 & 2 & 0 & Complete \\
+    System study & 16 & 8.5 & 4 & 1 & Complete \\
+    Assigned task & 32 & 8.8 & 8 & 2 & Review \\
+    \hline
+\end{tabular}
+\end{adjustbox}
+\end{center}
+
+Source code for the wide table:
+
+\begin{verbatim}
+\begin{table}[H]
+    \centering
+    \caption{Wide internship task summary}
+    \label{tab:wide-internship}
+    \begin{adjustbox}{max width=\textwidth}
+        \begin{tabular}{lrrrrl}
+            Task & Hours & Score & Tests & Issues & Status \\
+            Orientation & 8 & 9.0 & 2 & 0 & Complete \\
+            System study & 16 & 8.5 & 4 & 1 & Complete \\
+            Assigned task & 32 & 8.8 & 8 & 2 & Review \\
+        \end{tabular}
+    \end{adjustbox}
+\end{table}
+\end{verbatim}
+
+
 \vspace{0.3cm}
 
 % ================================================================
@@ -437,7 +693,7 @@ screenshots whenever practical.
 % ================================================================
 
 \noindent
-\textbf{XIV.\quad EQUATIONS AND TECHNICAL QUANTITIES}
+\RegSection{XIV}{EQUATIONS AND TECHNICAL QUANTITIES}
 
 \vspace{0.15cm}
 
@@ -482,6 +738,42 @@ Examples:
 
 Notation and units shall be consistent throughout the report.
 
+
+\RegExample Rendered inline quantity: the measured resistance is
+$R = 0.7\,\Omega$.
+
+\RegExample Rendered display equation:
+
+\begin{equation*}
+    P = UI
+\end{equation*}
+
+Use a numbered equation in the report when it must be referenced later:
+
+\begin{verbatim}
+\begin{equation}
+    P = UI
+    \label{eq:internship-power}
+\end{equation}
+\end{verbatim}
+
+Rendered quantities with units:
+
+\begin{center}
+    Supply voltage: \SI{220}{\volt}\par
+    Current: \SI{2.5}{\ampere}\par
+    Frequency: \SI{50}{\hertz}
+\end{center}
+
+Source code:
+
+\begin{verbatim}
+\SI{220}{\volt}
+\SI{2.5}{\ampere}
+\SI{50}{\hertz}
+\end{verbatim}
+
+
 \vspace{0.3cm}
 
 % ================================================================
@@ -489,7 +781,7 @@ Notation and units shall be consistent throughout the report.
 % ================================================================
 
 \noindent
-\textbf{XV.\quad SOURCE CODE}
+\RegSection{XV}{SOURCE CODE}
 
 \vspace{0.15cm}
 
@@ -521,11 +813,40 @@ Source code should not normally be inserted as screenshots.
 \vspace{0.3cm}
 
 % ================================================================
+
+\RegSubsection{Appendix examples: verbatim and listings}
+
+The \verb|verbatim| environment preserves literal text:
+
+\begin{verbatim}
+controller: enabled
+sampling time: 0.01 s
+status: verified
+\end{verbatim}
+
+Use \verb|lstlisting| for source code with formatting:
+
+\begin{lstlisting}[language=Matlab]
+gain = 2.5;
+output = gain * input;
+fprintf('Output: %.2f\n', output);
+\end{lstlisting}
+
+Source code for the listing:
+
+\begin{verbatim}
+\begin{lstlisting}[language=Matlab]
+gain = 2.5;
+output = gain * input;
+fprintf('Output: %.2f\n', output);
+\end{lstlisting}
+\end{verbatim}
+
 % XVI. ABSTRACT
 % ================================================================
 
 \noindent
-\textbf{XVI.\quad ABSTRACT}
+\RegSection{XVI}{ABSTRACT}
 
 \vspace{0.15cm}
 
@@ -548,7 +869,7 @@ of the report chapter by chapter.
 % ================================================================
 
 \noindent
-\textbf{XVII.\quad REFERENCES AND CITATIONS}
+\RegSection{XVII}{REFERENCES AND CITATIONS}
 
 \vspace{0.15cm}
 
@@ -580,6 +901,42 @@ language in the bibliography.
 All borrowed ideas, data, figures, tables, equations, methods, or results
 shall be properly acknowledged.
 
+
+\RegSubsection{What a citation and reference-list entry look like}
+
+A numeric citation may render as follows:
+
+\begin{quote}
+The internship method follows an established procedure [1].
+\end{quote}
+
+The bracketed number is generated by the bibliography style. Store
+the source in \verb|References.bib| and cite it with:
+
+\begin{verbatim}
+The internship method follows an established procedure
+\cite{author2024internship}.
+\end{verbatim}
+
+A reference-list entry may render as:
+
+\begin{quote}
+[1] A. Author, \textquotedblleft Internship Method,\textquotedblright
+\textit{Technical Report}, 2024.
+\end{quote}
+
+A BibTeX entry can be organized as follows:
+
+\begin{verbatim}
+@techreport{author2024internship,
+  author      = {Author, First},
+  title       = {Internship Method},
+  institution = {Example Organization},
+  year        = {2024}
+}
+\end{verbatim}
+
+
 \vspace{0.3cm}
 
 % ================================================================
@@ -587,7 +944,7 @@ shall be properly acknowledged.
 % ================================================================
 
 \noindent
-\textbf{XVIII.\quad CROSS-REFERENCING}
+\RegSection{XVIII}{CROSS-REFERENCING}
 
 \vspace{0.15cm}
 
@@ -611,6 +968,33 @@ As shown in Figure~\ref{fig:system}, ...
 Students shall not manually type numbers such as ``Figure 2.3'' when
 those numbers can be generated automatically.
 
+
+\RegSubsection{What cross-references look like}
+
+After compilation, a sentence may appear as follows:
+
+\begin{quote}
+Figure 2.3 shows the internship workflow. The test conditions are
+listed in Table 2.1, and the model is defined by Equation (2.4).
+\end{quote}
+
+The numbers above are visual examples. Labels and reference commands
+generate the actual numbers when the report is compiled.
+
+Source code:
+
+\begin{verbatim}
+Figure~\ref{fig:internship-workflow} shows the internship workflow.
+The test conditions are listed in Table~\ref{tab:internship-tests},
+and the model is defined by Equation~\eqref{eq:internship-model}.
+\end{verbatim}
+
+Place each \verb|\label| after the command that creates its number,
+usually immediately after \verb|\caption| for figures and tables.
+Use descriptive prefixes such as \verb|fig:|, \verb|tab:|, and
+\verb|eq:| so labels remain easy to maintain.
+
+
 \vspace{0.3cm}
 
 % ================================================================
@@ -618,7 +1002,7 @@ those numbers can be generated automatically.
 % ================================================================
 
 \noindent
-\textbf{XIX.\quad PAGE NUMBERING}
+\RegSection{XIX}{PAGE NUMBERING}
 
 \vspace{0.15cm}
 
@@ -638,7 +1022,7 @@ Students shall not manually enter page numbers.
 % ================================================================
 
 \noindent
-\textbf{XX.\quad PROJECT FILE ORGANIZATION}
+\RegSection{XX}{PROJECT FILE ORGANIZATION}
 
 \vspace{0.15cm}
 
@@ -686,7 +1070,7 @@ avoided where possible.
 % ================================================================
 
 \noindent
-\textbf{XXI.\quad DOCUMENT COMPILATION AND FINAL CHECK}
+\RegSection{XXI}{DOCUMENT COMPILATION AND FINAL CHECK}
 
 \vspace{0.15cm}
 
@@ -730,7 +1114,7 @@ template.
 % ================================================================
 
 \noindent
-\textbf{XXII.\quad CONTENT THAT STUDENTS MAY EDIT}
+\RegSection{XXII}{CONTENT THAT STUDENTS MAY EDIT}
 
 \vspace{0.15cm}
 
@@ -762,7 +1146,7 @@ page layout, or cover-page macros unless specifically instructed.
 % ================================================================
 
 \noindent
-\textbf{XXIII.\quad FINAL SUBMISSION REQUIREMENTS}
+\RegSection{XXIII}{FINAL SUBMISSION REQUIREMENTS}
 
 \vspace{0.15cm}
 
